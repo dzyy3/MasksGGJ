@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour
         bool isOutOfView =
             viewportPos.x < 0f || viewportPos.x > 1f ||
             viewportPos.y < 0f || viewportPos.y > 1f ||
-            viewportPos.z < 0f; // behind camera
+            viewportPos.z < 0f;
 
         if (isOutOfView)
         {

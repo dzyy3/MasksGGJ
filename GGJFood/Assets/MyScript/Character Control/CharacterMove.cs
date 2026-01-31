@@ -20,7 +20,7 @@ public class CharacterMove : MonoBehaviour
     public float GroundedOffset = -0.14f;
     public float GroundedRadius = 0.28f;
     public LayerMask GroundLayers;
-    public LayerMask EnemyLayers;   // 👈 added
+    public LayerMask EnemyLayers;  
 
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
@@ -70,8 +70,8 @@ public class CharacterMove : MonoBehaviour
     {
 #if ENABLE_INPUT_SYSTEM
         float x = Keyboard.current != null
-            ? (Keyboard.current.aKey.isPressed ? 1f :
-               Keyboard.current.dKey.isPressed ? -1f : 0f)
+            ? (Keyboard.current.aKey.isPressed ? -1f :
+               Keyboard.current.dKey.isPressed ? 1f : 0f)
             : 0f;
 #else
         float x = Input.GetAxisRaw("Horizontal");

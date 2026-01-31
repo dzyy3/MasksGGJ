@@ -46,7 +46,6 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameData.PopupImageActive = false;
-        GameData.ObjectDestroyed = false;
 
         if (fadeImg == null)
         {
@@ -74,7 +73,6 @@ public class GameManager : MonoBehaviour
         // Fade In
         fadeImg.color = new Color(0, 0, 0, 0);
         fadeImg.gameObject.SetActive(true);
-        GameData.spawnIndex = index;
         GameData.SceneMoveEnabled = true;
         
         float time = 0;
