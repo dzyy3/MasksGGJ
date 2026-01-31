@@ -8,7 +8,6 @@ public class CharacterHealth : MonoBehaviour
 
     private void Start()
     {
-        // initialize UI from stored data
         healthBar.UpdateHealthBar(MAX_HEALTH, GameData.Health);
     }
 
