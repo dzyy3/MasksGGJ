@@ -1,13 +1,14 @@
 using UnityEngine;
+
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
-[RequireComponent(typeof(UnityEngine.CharacterController))]
+[RequireComponent(typeof(CharacterController))]
 public class CharacterMove : MonoBehaviour
 {
     [Header("Player")]
-    public float MoveSpeed = 2.0f;
+    public float MoveSpeed = 3.0f;
 
     [Space(10)]
     public float JumpHeight = 1.2f;
@@ -19,16 +20,17 @@ public class CharacterMove : MonoBehaviour
     public float GroundedOffset = -0.14f;
     public float GroundedRadius = 0.28f;
     public LayerMask GroundLayers;
+    public LayerMask EnemyLayers;   // 👈 added
 
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
     private float _jumpTimeoutDelta;
 
-    private UnityEngine.CharacterController _controller;
+    private CharacterController _controller;
 
     private void Start()
     {
-        _controller = GetComponent<UnityEngine.CharacterController>();
+        _controller = GetComponent<CharacterController>();
         _jumpTimeoutDelta = JumpTimeout;
     }
 
@@ -47,69 +49,68 @@ public class CharacterMove : MonoBehaviour
             transform.position.z
         );
 
-        Grounded = Physics.CheckSphere(
+        bool onGround = Physics.CheckSphere(
             spherePosition,
             GroundedRadius,
             GroundLayers,
             QueryTriggerInteraction.Ignore
         );
+
+        bool onEnemy = Physics.CheckSphere(
+            spherePosition,
+            GroundedRadius,
+            EnemyLayers,
+            QueryTriggerInteraction.Ignore
+        );
+
+        Grounded = onGround || onEnemy;
     }
 
     private void Move()
     {
-        #if ENABLE_INPUT_SYSTEM
-            float x = Keyboard.current != null
-                ? (Keyboard.current.aKey.isPressed ? 1f :
-                Keyboard.current.dKey.isPressed ? -1f : 0f)
-                : 0f;
-        #else
-            float x = Input.GetAxisRaw("Horizontal");
-        #endif
+#if ENABLE_INPUT_SYSTEM
+        float x = Keyboard.current != null
+            ? (Keyboard.current.aKey.isPressed ? 1f :
+               Keyboard.current.dKey.isPressed ? -1f : 0f)
+            : 0f;
+#else
+        float x = Input.GetAxisRaw("Horizontal");
+#endif
 
-        // character rotation
+        // rotate character
         if (x > 0f)
-        {
-           transform.rotation = Quaternion.Euler(0f, 90f, 0f);  
-        }
-                
+            transform.rotation = Quaternion.Euler(0f, 90f, 0f);
         else if (x < 0f)
-        {
             transform.rotation = Quaternion.Euler(0f, -90f, 0f);
-        }
 
         Vector3 move = new Vector3(x * MoveSpeed, 0f, 0f);
 
         _controller.Move(
-            (move + new Vector3(0f, _verticalVelocity, 0f)) * Time.deltaTime
-        );       
+            (move + Vector3.up * _verticalVelocity) * Time.deltaTime
+        );
     }
-
 
     private void JumpAndGravity()
     {
-        #if ENABLE_INPUT_SYSTEM
-                bool jumpPressed = Keyboard.current != null &&
-                                Keyboard.current.spaceKey.wasPressedThisFrame;
-        #else
-                bool jumpPressed = Input.GetButtonDown("Jump");
-        #endif
+#if ENABLE_INPUT_SYSTEM
+        bool jumpPressed = Keyboard.current != null &&
+                           Keyboard.current.spaceKey.wasPressedThisFrame;
+#else
+        bool jumpPressed = Input.GetButtonDown("Jump");
+#endif
 
         if (Grounded)
         {
-            // make jumping faster
             _jumpTimeoutDelta = 0f;
 
             if (_verticalVelocity < 0f)
-            {
                 _verticalVelocity = -2f;
-            }
-                
+
             if (jumpPressed)
             {
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
             }
         }
-
         else
         {
             _jumpTimeoutDelta = JumpTimeout;
