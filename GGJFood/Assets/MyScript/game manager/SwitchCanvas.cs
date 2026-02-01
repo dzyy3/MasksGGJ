@@ -23,6 +23,8 @@ public class SwitchCanvas : MonoBehaviour
     public void ShowSecondCanvas()
     {
         StartCoroutine(FadeInRoutine());
+        Debug.Log("ShowSecondCanvas CALLED");
+
     }
 
     private IEnumerator FadeInRoutine()

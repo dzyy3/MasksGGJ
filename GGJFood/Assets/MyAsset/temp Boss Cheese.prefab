@@ -180,8 +180,9 @@ GameObject:
   - component: {fileID: 8889227418291539975}
   - component: {fileID: 5564769188735627392}
   - component: {fileID: 7163383402921801986}
+  - component: {fileID: 5954060803943417809}
   m_Layer: 7
-  m_Name: Boss Cheese
+  m_Name: temp Boss Cheese
   m_TagString: boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,7 +305,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 8
   m_CollisionDetection: 0
@@ -341,6 +342,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f3aac52dd8d5f4aa4a92174df68d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossHealth
+  healthBar: {fileID: 0}
+  maxHealth: 1
+--- !u!114 &5954060803943417809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378805072419581012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a227e7e6282edf54081a115b2127cbc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  moveSpeed: 2
+  playerTag: Player
 --- !u!1 &7814587062164186297
 GameObject:
   m_ObjectHideFlags: 0

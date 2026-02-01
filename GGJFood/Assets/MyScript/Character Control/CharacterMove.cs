@@ -18,7 +18,7 @@ public class CharacterMove : MonoBehaviour
 
     [Header("Grounded")]
     public bool Grounded = true;
-    public float GroundedOffset = -0.14f;
+    public float GroundedOffset = -0.05f;
     public float GroundedRadius = 0.28f;
     public LayerMask GroundLayers;
     public LayerMask EnemyLayers; 
