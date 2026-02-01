@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 #endif
 
 [RequireComponent(typeof(CharacterController))]
+
 public class CharacterMove : MonoBehaviour
 {
     [Header("Player")]
@@ -20,7 +21,8 @@ public class CharacterMove : MonoBehaviour
     public float GroundedOffset = -0.14f;
     public float GroundedRadius = 0.28f;
     public LayerMask GroundLayers;
-    public LayerMask EnemyLayers;  
+    public LayerMask EnemyLayers; 
+    public LayerMask BossLayers;   
 
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
@@ -63,7 +65,14 @@ public class CharacterMove : MonoBehaviour
             QueryTriggerInteraction.Ignore
         );
 
-        Grounded = onGround || onEnemy;
+        bool onBoss = Physics.CheckSphere(
+            spherePosition,
+            GroundedRadius,
+            BossLayers,
+            QueryTriggerInteraction.Ignore
+        );
+
+        Grounded = onGround || onEnemy || onBoss;
     }
 
     private void Move()

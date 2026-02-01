@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 // Singleton
 public class GameManager : MonoBehaviour
@@ -46,18 +47,31 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameData.PopupImageActive = false;
+    }
 
-        if (fadeImg == null)
-        {
-            fadeImg = GameObject.Find("fadeImg")?.GetComponent<Image>();
-            if (fadeImg == null)
-            {
-                Debug.LogWarning("[Fade] fadeImg is still null after scene load!");
-            }
-        }
+
+    // private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    // {
+    //     GameData.PopupImageActive = false;
+
+    //     if (fadeImg == null)
+    //     {
+    //         fadeImg = GameObject.Find("fadeImg")?.GetComponent<Image>();
+    //         if (fadeImg == null)
+    //         {
+    //             Debug.LogWarning("[Fade] fadeImg is still null after scene load!");
+    //         }
+    //     }
+    // }
+
+    public void MoveToSceneByName(string targetSceneName)
+    {
+        if (string.IsNullOrWhiteSpace(targetSceneName)) return;
+        MoveScene(targetSceneName);
     }
 
     // Scene move with fade effect
+
     public void MoveScene(string sceneName, int index)
     {
         Debug.Log("[TEST] MoveScene called with sceneName: " + sceneName + ", index: " + index);
@@ -68,6 +82,15 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(MoveSceneCoroutine(sceneName, index));
     }
+
+    public void MoveScene(string targetSceneName)
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        MoveScene(targetSceneName, 0);
+    }
+
+
     private IEnumerator MoveSceneCoroutine(string sceneName, int index)
     {
         // Fade In

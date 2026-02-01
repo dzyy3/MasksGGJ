@@ -13,6 +13,14 @@ public class Bullet : MonoBehaviour
     {
         DestroyIfOutOfCamera();
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("bullet")) return;
+
+        Destroy(gameObject);
+    }
+
     void DestroyIfOutOfCamera()
     {
         if (mainCam == null) return;
@@ -29,4 +37,5 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 }
