@@ -16,10 +16,12 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Player")) return; // don't hit yourself
         if (collision.gameObject.CompareTag("bullet")) return;
 
         Destroy(gameObject);
     }
+
 
     void DestroyIfOutOfCamera()
     {
