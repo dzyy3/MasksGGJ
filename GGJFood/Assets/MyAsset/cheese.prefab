@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 1876891273400270449}
   - component: {fileID: 734890134208092206}
   m_Layer: 6
-  m_Name: banana
+  m_Name: cheese
   m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a227e7e6282edf54081a115b2127cbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  moveSpeed: 0.6
+  moveSpeed: 0.4
   playerTag: Player
 --- !u!114 &930742219860107460
 MonoBehaviour:

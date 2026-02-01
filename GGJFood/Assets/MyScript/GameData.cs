@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public static class GameData
 {
     //static & singleton

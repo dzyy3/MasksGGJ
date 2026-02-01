@@ -97,6 +97,10 @@ public class CharacterHealth : MonoBehaviour
         {
             damage = MAX_HEALTH * 0.2f;
         }
+        else if (other.CompareTag("enemyBullet"))
+        {
+            damage = MAX_HEALTH * 0.1f;
+        }
         else return;
 
         lastAnyHitTime = Time.time;

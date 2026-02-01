@@ -7,22 +7,21 @@ public class EnemySpawner : MonoBehaviour
     public int TotalSpawns = 10;
 
     [Header("Spawn Settings")]
-    public float spawnDelay = 2f; 
+    public float spawnDelay = 2f;
     public float spawnInterval = 3f;
 
     [Header("Boss Settings")]
-    public float bossSpawnDelay = 3f; 
+    public float bossSpawnDelay = 3f;
 
     private int spawnCount = 0;
     private bool bossSpawnScheduled = false;
 
-    void Start()
-    {
-        InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnInterval);
-    }
+    private bool isSpawning = false;
 
-    void Update()
+    private void Update()
     {
+        if (!isSpawning) return;
+
         if (spawnCount >= TotalSpawns && !bossSpawnScheduled)
         {
             CancelInvoke(nameof(SpawnEnemy));
@@ -31,24 +30,30 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    // private void SpawnEnemy()
-    // {
-    //     Instantiate(enemyPrefab, transform.position, transform.rotation);
-    //     spawnCount++;
-    // }
+    public void BeginSpawning()
+{
+    if (isSpawning) return;
 
-    // private void SpawnBoss()
-    // {
-    //     Instantiate(BossPrefab, transform.position, transform.rotation);
-    // }
-
-    private void SpawnEnemy()
+    if (enemyPrefab == null)
     {
-        var e = Instantiate(enemyPrefab, transform.position, transform.rotation);
-        e.tag = "enemy";
-        SetLayerRecursively(e, LayerMask.NameToLayer("enemy"));
-        spawnCount++;
+        Debug.LogError("enemyPrefab is NOT assigned in EnemySpawner.");
+        return;
     }
+
+    Debug.Log("BeginSpawning() started InvokeRepeating");
+    isSpawning = true;
+    InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnInterval);
+}
+
+private void SpawnEnemy()
+{
+    Debug.Log("SpawnEnemy fired");
+    var e = Instantiate(enemyPrefab, transform.position, transform.rotation);
+    e.tag = "enemy";
+    SetLayerRecursively(e, LayerMask.NameToLayer("enemy"));
+    spawnCount++;
+}
+
 
     private void SpawnBoss()
     {
@@ -63,5 +68,4 @@ public class EnemySpawner : MonoBehaviour
         foreach (Transform child in obj.transform)
             SetLayerRecursively(child.gameObject, layer);
     }
-
 }
